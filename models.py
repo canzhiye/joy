@@ -2,6 +2,7 @@ class BaseSentiment:
     name = ''
     _id = ''
     sentiment = {}
+    morale = None
 
     def __init__(self, name, id, s={}):
         self.name = name
@@ -11,7 +12,7 @@ class BaseSentiment:
     def add_sentiment(self, s):
         if self.sentiment != {}:
             for key in self.sentiment.keys():
-                if len(self.sentiment[key]) > 9:
+                if len(self.sentiment[key]) > 14:
                     self.sentiment[key] = self.sentiment[key][1:]
                 self.sentiment[key].append(s[key][0]) 
         else:
