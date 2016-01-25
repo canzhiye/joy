@@ -33,10 +33,11 @@ def oauth():
             pickle.dump(tokens, f)
 
         _pool.apply_async(start_joy, args=(team_id, bot_id))
+
+        return redirect(oauth_info.body['incoming_webhook']['configuration_url'])
     except Exception as e: 
         print(e)
-
-    return redirect(oauth_info.body['incoming_webhook']['configuration_url'])
+        return e
 
 if __name__ == "__main__":
     _pool = ThreadPool()
