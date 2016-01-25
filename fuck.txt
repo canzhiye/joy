@@ -1,3 +1,0 @@
-RUNNING CRON JOB
-message sent to: canzhi
-message sent to: slackbot
