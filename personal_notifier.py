@@ -48,9 +48,10 @@ def notify():
 
 schedule.every().day.at("12:30").do(notify)
 schedule.every().day.at("14:00").do(notify)
-schedule.every(1).minutes.do(notify)
 
-notify()
+# UNCOMMENT TO TEST
+# schedule.every(1).minutes.do(notify)
+# notify()
 
 while True:
     schedule.run_pending()

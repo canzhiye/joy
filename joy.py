@@ -51,10 +51,7 @@ def start_joy(team_id, bot_id):
             channel = res['channel']
             timestamp = res['ts']
 
-            BOT = 'NO BOT'
             if bot_id in message:
-                BOT = 'YES BOT'
-
                 if 'get morale' in message.lower():
                     t = message.lower().split('get morale ')
                     person = ''
@@ -66,7 +63,6 @@ def start_joy(team_id, bot_id):
                         slack_socket.send_msg(str(compute_team_morale(people)), channel_name=channel)
                 continue
 
-            print(BOT)
             res = tone_analyzer.tone(text=message)
             emotional_tone = res['children'][0]
             writing_tone = res['children'][1]
