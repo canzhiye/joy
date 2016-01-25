@@ -3,9 +3,9 @@ Joy
 
 Joy from Inside Out. How is your team's morale? She'll let you know!
 
-@joy get morale - gets overall morale of team
-@joy get morale [user] - gets morale of [user]
-@joy get morale [channel] - gets morale of channel
+* @joy get morale - gets overall morale of team
+* @joy get morale [user] - gets morale of [user]
+* @joy get morale [channel] - gets morale of channel
 
 Joy will also privately check in with those who are feeling down. 
 
