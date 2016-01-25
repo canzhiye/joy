@@ -6,12 +6,13 @@ from models import User, Channel
 import pickle
 from helper import compute_team_morale, compute_person_channel_morale
 import os
+from multiprocessing.pool import ThreadPool
 
 def start_joy(team_id, bot_id):
     SLACK_TOKEN = ''
     with open('tokens.pickle', 'rb') as f:
         tokens = pickle.load(f)
-        SLACK_TOKEN = tokens[team_id]
+        SLACK_TOKEN = tokens[team_id][0]
 
     slack_socket = SlackSocket(SLACK_TOKEN, translate=True)
     slack = Slacker(SLACK_TOKEN)
@@ -118,4 +119,20 @@ def start_joy(team_id, bot_id):
 
             with open('teams.pickle', 'wb') as f:
                 pickle.dump(teams, f)
+
+if __name__ == '__main__':
+    _pool = ThreadPool()
+
+    try:
+        with open('tokens.pickle', 'rb') as f:
+            tokens = pickle.load(f)
+            print(tokens)
+
+            for team_id in tokens:
+                bot_id = tokens[team_id][1]
+                print(bot_id)
+                _pool.apply_async(start_joy, args=(team_id, bot_id))
+    except:
+        _pool.close()
+
 

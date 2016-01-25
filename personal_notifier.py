@@ -20,7 +20,7 @@ def notify():
         with open('tokens.pickle', 'rb') as f:
             tokens = pickle.load(f)
             print(tokens)
-            SLACK_TOKEN = tokens[team_key]
+            SLACK_TOKEN = tokens[team_key][0]
 
         slack_socket = SlackSocket(SLACK_TOKEN, translate=True)
         slack = Slacker(SLACK_TOKEN)

@@ -3,7 +3,6 @@ from slacker import Slacker
 import os
 import pickle
 from joy import start_joy
-from multiprocessing.pool import ThreadPool
 
 app = Flask(__name__)
 
@@ -27,12 +26,16 @@ def oauth():
         bot_access_token = oauth_info.body['bot']['bot_access_token']
         bot_id = oauth_info.body['bot']['bot_user_id']
 
-        tokens[team_id] = bot_access_token
+        try:
+            with open('tokens.pickle', 'rb') as f:
+                tokens = pickle.load(f)
+        except:
+            pass
+
+        tokens[team_id] = (bot_access_token, bot_id)
 
         with open('tokens.pickle', 'wb') as f:
             pickle.dump(tokens, f)
-
-        _pool.apply_async(start_joy, args=(team_id, bot_id))
 
         return redirect(oauth_info.body['incoming_webhook']['configuration_url'])
     except Exception as e: 
@@ -40,5 +43,4 @@ def oauth():
         return e
 
 if __name__ == "__main__":
-    _pool = ThreadPool()
     app.run(host='0.0.0.0')
