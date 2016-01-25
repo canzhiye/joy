@@ -27,12 +27,14 @@ for p in [u for u in response.body['members']]:
 
     people[name] = person
 
+teams = {}
+
 def start():
     for event in slack_socket.events():
         res = json.loads(event.json)
         if res['type'] == 'message' and 'user' in res and res['user'] != 'joy':
             print(res)
-
+            team = res['team']
             message = res['text']
             user = res['user']
             channel = res['channel']
@@ -91,17 +93,18 @@ def start():
                 'conscientiousness' : [conscientiousness]         
             }
 
-            if channel in channels:
-                channels[channel].add_sentiment(sentiment)
+            if team in teams:
+                if channel in channels:
+                    teams[team]['channels'][channel].add_sentiment(sentiment)
 
-            if user in people:
-                people[user].add_sentiment(sentiment)
-
-            with open('people.pickle', 'wb') as f:
-                pickle.dump(people, f)
-
-            with open('channels.pickle', 'wb') as f:
-                pickle.dump(channels, f)
+                if user in people:
+                    teams[team]['people'][user].add_sentiment(sentiment)
+            else:
+                d = {'channels' : channels, 'people' : people}
+                teams[team] = d
+            
+            with open('teams.pickle', 'wb') as f:
+                pickle.dump(teams, f)
 
             # channels[channel] = collect(channels[channel], sentiment)
 

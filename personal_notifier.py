@@ -7,31 +7,35 @@ import schedule
 import time
 
 def notify():
-    people = {}
-    channels = {}
-    with open('people.pickle', 'rb') as f:
-        people = pickle.load(f)
+    teams = {}
 
-    with open('channels.pickle', 'rb') as f:
-        channels = pickle.load(f)
+    with open('teams.pickle', 'rb') as f:
+        teams = pickle.load(f)
 
-    for key in people:
-        person = people[key]
+    for team_key in teams:
+        team = teams[team_key]
 
-        morale = compute_person_channel_morale(people, channels, person.name)
+        people = team['people']
+        channels = team['channels']
 
-        if type(morale) is float and morale < 0.15:
-            try:
-                res = slack.im.open(person._id)
-                c_id = res.body['channel']['id']
-                msg = slack_socket.send_msg('hey, you seem to be a bit down today. is everything alright?', channel_id=c_id)
-                if msg.sent:
-                    print('message sent to: ' + person.name)
-            except:
-                pass
+        for key in people:
+            person = people[key]
+
+            morale = compute_person_channel_morale(people, channels, person.name)
+
+            if type(morale) is float and morale < 0.15:
+                try:
+                    res = slack.im.open(person._id)
+                    c_id = res.body['channel']['id']
+                    msg = slack_socket.send_msg('hey, you seem to be a bit down today. is everything alright?', channel_id=c_id)
+                    if msg.sent:
+                        print('message sent to: ' + person.name)
+                except:
+                    pass
 
 schedule.every().day.at("12:30").do(notify)
 schedule.every().day.at("14:00").do(notify)
+schedule.every(1).minutes.do(notify)
 
 while True:
     schedule.run_pending()
