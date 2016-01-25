@@ -30,8 +30,8 @@ def notify():
             except:
                 pass
 
-schedule.every().day.at("12:30").do(job)
-schedule.every().day.at("14:00").do(job)
+schedule.every().day.at("12:30").do(notify)
+schedule.every().day.at("14:00").do(notify)
 
 while True:
     schedule.run_pending()
