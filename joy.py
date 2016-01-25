@@ -3,6 +3,7 @@ import json
 from models import User, Channel
 import pickle
 from helper import compute_team_morale, compute_person_channel_morale
+import os
 
 response = slack.channels.list()
 channels = {}
@@ -96,8 +97,11 @@ def start():
             #     people[user] = collect(people[user], sentiment)
             # else:
             #     people[user] = sentiment
-            channels[channel].add_sentiment(sentiment)
-            people[user].add_sentiment(sentiment)
+            if channel in channels:
+                channels[channel].add_sentiment(sentiment)
+
+            if user in people:
+                people[user].add_sentiment(sentiment)
 
             with open('people.pickle', 'wb') as f:
                 pickle.dump(people, f)
@@ -113,3 +117,4 @@ def start():
 
 
 start()
+

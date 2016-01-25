@@ -15,13 +15,13 @@ def compute_team_morale(people):
 
         if person.sentiment != {}:
             # print(person.sentiment['cheerfulness'])
-            cheerfulness = sum(person.sentiment['cheerfulness']) / 10
-            anger = sum(person.sentiment['anger']) / 10
-            negative = sum(person.sentiment['negative']) / 10
-            confident = sum(person.sentiment['confident']) / 10
-            analytical = sum(person.sentiment['analytical']) / 10
-            conscientiousness = sum(person.sentiment['conscientiousness']) / 10
-            agreeableness = sum(person.sentiment['agreeableness']) / 10
+            cheerfulness = sum(person.sentiment['cheerfulness']) / len(person.sentiment['cheerfulness'])
+            anger = sum(person.sentiment['anger']) / len(person.sentiment['anger'])
+            negative = sum(person.sentiment['negative']) / len(person.sentiment['negative'])
+            confident = sum(person.sentiment['confident']) / len(person.sentiment['confident'])
+            analytical = sum(person.sentiment['analytical']) / len(person.sentiment['analytical'])
+            conscientiousness = sum(person.sentiment['conscientiousness']) / len(person.sentiment['conscientiousness'])
+            agreeableness = sum(person.sentiment['agreeableness']) / len(person.sentiment['agreeableness'])
 
             friendliness = cheerfulness - (anger + negative) / 2
 
@@ -54,7 +54,6 @@ def compute_team_morale(people):
 def compute_person_channel_morale(people, channels, name):
     if name.startswith('<'):
         name = re.sub('[^A-Za-z0-9]+', '', name).upper()
-        print(name)
 
         if name.startswith('U'):
             r = slack.users.info(user=name)
@@ -66,9 +65,7 @@ def compute_person_channel_morale(people, channels, name):
     thing = None
 
     if name in people:
-        print(name)
         thing = people[name]
-        print(thing)
     elif name in channels:
         thing = channels[name]
 
