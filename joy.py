@@ -91,12 +91,6 @@ def start():
                 'conscientiousness' : [conscientiousness]         
             }
 
-            # org = (0.75/2.54) * (confident + conscientiousness + analytical)
-            # morale = 
-            # if user in people:
-            #     people[user] = collect(people[user], sentiment)
-            # else:
-            #     people[user] = sentiment
             if channel in channels:
                 channels[channel].add_sentiment(sentiment)
 

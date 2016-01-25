@@ -20,7 +20,7 @@ def notify():
 
         morale = compute_person_channel_morale(people, channels, person.name)
 
-        if type(morale) is float and morale < 0.5:
+        if type(morale) is float and morale < 0.15:
             try:
                 res = slack.im.open(person._id)
                 c_id = res.body['channel']['id']
@@ -30,7 +30,8 @@ def notify():
             except:
                 pass
 
-schedule.every(1).minutes.do(notify)
+schedule.every().day.at("12:30").do(job)
+schedule.every().day.at("14:00").do(job)
 
 while True:
     schedule.run_pending()
