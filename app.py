@@ -1,5 +1,6 @@
 from flask import Flask, request
 from slacker import Slacker
+import os
 
 app = Flask(__name__)
 
@@ -10,10 +11,12 @@ def hello():
 @app.route('/auth', methods=['GET'])
 def oauth():
     code = request.args.get('code')
-    print(code)
+    print(os.environ['CLIENT_ID'])
+    print(os.environ['CLIENT_SECRET'])
 
     oauth_info = Slacker.oauth.access(os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'], code).body
     print(oauth_info)
+    
     return 'successfully authenticated'
 
 if __name__ == "__main__":
